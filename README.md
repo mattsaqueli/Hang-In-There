@@ -11,7 +11,7 @@ First, click [here!](https://github.com/mattsaqueli/Hang-In-There) Next, click t
 ### Preview of App:
 [//]: <> (Provide ONE gif or screenshot of your application - choose the "coolest" piece of functionality to show off.)
 ##### This is one of our custom posters
-![gorilla poster](MotivationalGorillaPoster.jpg)
+![gorilla poster](![Screen Shot 2023-02-11 at 8 24 25 PM](https://user-images.githubusercontent.com/122255250/218291716-9f887b00-cc4e-4fb4-8f02-5c38dc09deb7.png))
 
 ### Context:
 [//]: <> (Give some context for the project here. How long did you have to work on it? How far into the Turing program are you?)
