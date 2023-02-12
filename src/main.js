@@ -1,5 +1,27 @@
 // query selector variables go here 👇
 
+var currentImage = document.querySelector('.poster-img');
+var currentTitle = document.querySelector('.poster-title');
+var currentQuote = document.querySelector('.poster-quote');
+
+var savePosterButton = document.querySelector('.show-random');
+var showSavedButton = document.querySelector('.show-saved');
+var randomPosterButton = document.querySelector('.show-random');
+var showFormButton = document.querySelector('.show-form');
+var showMyPosterButton = document.querySelector('.make-poster');
+var takeMeBackButton = document.querySelector('.show-main');
+var backToMainButton = document.querySelector('.back-to-main');
+var saveThisPosterButton = document.querySelector('.save-poster');
+
+var formPosterPage = document.querySelector('.poster-form');
+var mainPosterPage = document.querySelector('.main-poster');
+var savedPosterPage = document.querySelector('.saved-posters');
+var savedPosterGrid = document.querySelector('.saved-posters-grid');
+
+var userPosterImage = document.querySelector('#poster-image-url');
+var userPosterTitle = document.querySelector('#poster-title');
+var userPosterQuote = document.querySelector('#poster-quote');
+
 // we've provided you with some data to work with 👇
 var images = [
   "./assets/bees.jpg",
@@ -103,9 +125,99 @@ var currentPoster;
 
 // event listeners go here 👇
 
+window.addEventListener('load', showRandomPoster)
+randomPosterButton.addEventListener('click', showRandomPoster)
+showFormButton.addEventListener('click', showPosterPage)
+takeMeBackButton.addEventListener('click', showMainPage)
+showSavedButton.addEventListener('click', showSavedGrid)
+backToMainButton.addEventListener('click', returnMainPage)
+showMyPosterButton.addEventListener('click', showUserPoster)
+saveThisPosterButton.addEventListener('click', saveThisPoster)
+savedPosterGrid.addEventListener('dblclick', deletePoster)
+
+
 // functions and event handlers go here 👇
 // (we've provided one for you to get you started)!
+
+
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
 
+function getRandomPoster() {
+  currentPoster = new Poster(images[getRandomIndex(images)],
+   titles[getRandomIndex(titles)], quotes[getRandomIndex(quotes)])
+} 
+
+function showRandomPoster() {
+  getRandomPoster();
+  currentTitle.innerText = currentPoster.title;
+  currentImage.src = currentPoster.imageURL;
+  currentQuote.innerText = currentPoster.quote;
+}
+
+function hideMainPage() {
+  mainPosterPage.classList.add("hidden");
+}
+
+function showPosterPage() {
+  hideMainPage();
+  formPosterPage.classList.remove("hidden");
+}
+
+function saveThisPoster() {
+  if (!savedPosters.includes(currentPoster)) {
+    savedPosters.push(currentPoster)
+  }
+}
+
+function showSavedGrid() {
+  savedPosterGrid.innerHTML = ""
+  for (var i = 0; i < savedPosters.length; i++) {
+    savedPosterGrid.innerHTML += `<div class = "mini-poster" 
+    id=${savedPosters[i]}>
+    <img src=${savedPosters[i].imageURL} alt="nothin' to see here">
+    <h1>${savedPosters[i].title}</h1>
+    <h3>${savedPosters[i].quote}</h3>`
+
+  }
+  showSavedPosters();
+}
+
+function showSavedPosters() {
+  hideMainPage();
+  savedPosterPage.classList.remove("hidden");
+}
+
+function showMainPage() {
+  formPosterPage.classList.add("hidden");
+  mainPosterPage.classList.remove("hidden");
+}
+
+function returnMainPage() {
+  savedPosterPage.classList.add("hidden");
+  mainPosterPage.classList.remove("hidden");
+}
+
+function showUserPoster(event) {
+  currentPoster = new Poster(userPosterImage.value, 
+     userPosterTitle.value, userPosterQuote.value);
+    currentTitle.innerText = currentPoster.title;
+    currentImage.src = currentPoster.imageURL;
+    currentQuote.innerText = currentPoster.quote;
+    images.push(userPosterImage.value);
+    quotes.push(userPosterQuote.value);
+    titles.push(userPosterTitle.value);
+    event.preventDefault();
+    showMainPage();
+}
+
+function deletePoster(event) {
+  var removePoster = event.target.closest("div");
+  event.target.closest("div").remove();
+  for (var i = 0; i < savedPosters.length; i++) {
+  if (savedPosters[i].id === removePoster.id){
+    savedPosters.splice(i, 1);
+    }
+  } 
+}
